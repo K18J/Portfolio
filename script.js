@@ -200,3 +200,34 @@ document.querySelectorAll('.project-card').forEach(card => {
     this.style.transform = 'translateY(0) scale(1)';
   });
 });
+
+// Active nav section tracking
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-link');
+
+const navObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.getAttribute('id');
+      navLinks.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+      });
+    }
+  });
+}, {
+  rootMargin: '-80px 0px -50% 0px',
+  threshold: 0
+});
+
+sections.forEach(section => navObserver.observe(section));
+
+// Scroll-to-top button
+const scrollTopBtn = document.getElementById('scroll-top');
+if (scrollTopBtn) {
+  window.addEventListener('scroll', () => {
+    scrollTopBtn.classList.toggle('visible', window.scrollY > 500);
+  });
+  scrollTopBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
